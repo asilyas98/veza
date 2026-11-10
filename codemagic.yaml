@@ -3,6 +3,8 @@ workflows:
     name: Veza iOS App Store IPA
     max_build_duration: 120
     instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: Codemagic
     environment:
       node: v22.11.0
       xcode: latest
@@ -32,3 +34,8 @@ workflows:
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_app_store: true
+        release_type: MANUAL

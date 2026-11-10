@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Veza",
+    "slug": "veza",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.simpleai.veza",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Veza uses your camera to take a selfie for ID verification.",
+        "NSPhotoLibraryUsageDescription": "Veza accesses your photos to upload your profile picture and ID documents.",
+        "NSPhotoLibraryAddUsageDescription": "Veza saves photos for your profile."
+      }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Veza accesses your photos to upload your profile picture.",
+          "cameraPermission": "Veza uses your camera for ID verification."
+        }
+      ]
+    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#68164e"
+    }
+  }
+}

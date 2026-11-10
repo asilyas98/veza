@@ -1,0 +1,34 @@
+workflows:
+  veza-ios-appstore:
+    name: Veza iOS App Store IPA
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    environment:
+      node: v22.11.0
+      xcode: latest
+      cocoapods: default
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.simpleai.veza
+      vars:
+        XCODE_WORKSPACE: Veza.xcworkspace
+        XCODE_SCHEME: Veza
+    scripts:
+      - name: Install JavaScript dependencies
+        script: npm install --no-audit --no-fund
+      - name: Generate the iOS project
+        script: CI=1 npx expo prebuild --platform ios
+      - name: Export the iOS JavaScript bundle
+        script: CI=1 npx expo export --platform ios --output-dir /tmp/veza-js-export
+      - name: Install CocoaPods dependencies
+        script: pod install --project-directory=ios
+      - name: Apply App Store signing profile
+        script: xcode-project use-profiles --project ios/Veza.xcodeproj
+      - name: Build signed IPA
+        script: |
+          xcode-project build-ipa \
+            --workspace "$CM_BUILD_DIR/ios/$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
